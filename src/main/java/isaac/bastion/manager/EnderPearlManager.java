@@ -19,29 +19,20 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import com.untamedears.humbug.CustomNMSEntityEnderPearl;
-
 import isaac.bastion.Bastion;
 import isaac.bastion.BastionBlock;
 import isaac.bastion.BastionType;
 import isaac.bastion.storage.BastionBlockStorage;
 
-@SuppressWarnings("deprecation")
 public class EnderPearlManager {
 	public static final int MAX_TELEPORT = 800;
 	private BastionBlockStorage storage;
-	private boolean humbugLoaded = true;
 	
 	private FlightTask task;
 	
 	public EnderPearlManager() {
 		storage = Bastion.getBastionStorage();
 		task = new FlightTask();
-		try {
-			Class.forName("com.untamedears.humbug.CustomNMSEntityEnderPearl");
-		} catch (ClassNotFoundException e) {
-			humbugLoaded = false;
-		}
 	}
 
 	public void handlePearlLaunched(EnderPearl pearl) {
@@ -50,9 +41,6 @@ public class EnderPearlManager {
 
 	private void getBlocking(EnderPearl pearl) {
 		double gravity = 0.03F;
-		if(humbugLoaded && pearl instanceof CustomNMSEntityEnderPearl) {
-			gravity = ((CustomNMSEntityEnderPearl)pearl).y_adjust_;
-		}
 
 		Vector speed = pearl.getVelocity();
 		Vector twoDSpeed = speed.clone();

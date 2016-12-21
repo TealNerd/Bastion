@@ -4,7 +4,6 @@ main: isaac.bastion.Bastion
 author: spaceFountain
 authors: [Rourke750, ProgrammerDan, Maxopoly, TealNerd]
 depend: [CivModCore, Citadel, NameLayer]
-softdepend: [Humbug]
 commands:
    Bastion:
       description: Base command for Bastion
