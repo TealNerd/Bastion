@@ -15,12 +15,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.event.world.StructureGrowEvent;
@@ -129,6 +131,18 @@ public final class BastionDamageListener implements Listener {
 		
 		if(blocking.size() != 0) {
 			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler (ignoreCancelled = true)
+	public void onPlayerInteract(PlayerInteractEvent event) {
+		if((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
+			&& event.hasItem() && event.getItem().getType().toString().contains("BOAT")) {
+			Block clicked = event.getAction() == Action.RIGHT_CLICK_BLOCK ? event.getClickedBlock() : event.getPlayer().getLocation().getBlock();
+			Set<BastionBlock> blocking = manager.shouldStopBlock(clicked, new HashSet<Block>(), event.getPlayer().getUniqueId());
+			if(blocking.size() != 0) {
+				event.setCancelled(true);
+			}
 		}
 	}
 	
